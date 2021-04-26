@@ -1,0 +1,51 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <div class="container">
+        <div class="mb-3" th:replace="fragments/admin/admin_navbar"/>
+
+        <h1>Authorization</h1>
+        <table class="table table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Surname</th>
+                <th scope="col">Phone Number</th>
+                <th scope="col">Username</th>
+                <th scope="col">Candidate</th>
+                <th scope="col">Instructor</th>
+                <th scope="col">Admin</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.getId()}"></td>
+                <td th:text="${user.getName()}"></td>
+                <td th:text="${user.getSurname()}"></td>
+                <td th:text="${user.getPhoneNumber()}"></td>
+                <td th:text="${user.getUsername()}"></td>
+                <td>
+                    <form method="POST" th:action="@{/admin/authorization}">
+                        <input type="hidden" name="username" th:value="${user.getUsername()}" />
+                        <input type="hidden" name="role" id="role1" value="CANDIDATE" />
+                        <button type="submit" class="btn btn-success" th:disabled="${user.hasRoleWithName('CANDIDATE') || user.hasRoleWithName('ROLE_CANDIDATE')}" ></button>
+                    </form>
+                </td>
+                <td>
+                    <form method="POST" th:action="@{/admin/authorization}">
+                        <input type="hidden" name="username" th:value="${user.getUsername()}" />
+                        <input type="hidden" name="role" id="role2" value="INSTRUCTOR" />
+                        <button type="submit" class="btn btn-info" th:disabled="${user.hasRoleWithName('INSTRUCTOR') || user.hasRoleWithName('ROLE_INSTRUCTOR')}" ></button>
+                    </form>
+                </td>
+                <td>
+                    <form method="POST" th:action="@{/admin/authorization}">
+                        <input type="hidden" name="username" th:value="${user.getUsername()}" />
+                        <input type="hidden" name="role" id="role3" value="ADMIN" />
+                        <button type="submit" class="btn btn-danger" th:disabled="${user.hasRoleWithName('ADMIN') || user.hasRoleWithName('ROLE_ADMIN')}" ></button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</th:block>

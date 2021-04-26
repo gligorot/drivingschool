@@ -1,0 +1,14 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <div class="container">
+        <div class="row">
+            <div sec:authorize="isAnonymous()">
+                <div th:replace="fragments/home/unauthenticated"/>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <div th:replace="fragments/home/authenticated"/>
+            </div>
+        </div>
+    </div>
+
+
+</th:block>

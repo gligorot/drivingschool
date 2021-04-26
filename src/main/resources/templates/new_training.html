@@ -1,0 +1,32 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5">
+                <form action="/instructor/trainings/new" method="POST">
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select name="categoryName" class="form-control">
+                            <option th:each="cat : ${categories}"
+                                    th:value="${cat.getName().toString()}"
+                                    th:text="${cat.getName().toString()}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Candidate</label>
+                        <select name="candidateId" class="form-control">
+                            <option th:each="candidate : ${candidates}"
+                                    th:value="${candidate.getUser().getId()}"
+                                    th:text="${candidate.getUser().getName() + ' ' + candidate.getUser().getSurname()}">
+                            </option>
+                        </select>
+                    </div>
+                    <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+                    <a type="button" class="btn btn-primary" href="javascript:history.back()">Back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</th:block>

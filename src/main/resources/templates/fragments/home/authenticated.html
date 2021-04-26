@@ -1,0 +1,36 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <div class="container">
+        <!-- Has roles case -->
+        <div class="row" th:if="${#lists.size(#authentication.getAuthorities()) > 0}">
+            <div class="card-deck">
+                <div class="card text-white bg-success mb-3">
+                    <div class="card-header"></div>
+                    <div class="card-body">
+                        <h5 class="card-title">Click here for the <b>Candidate</b> Dashboard!</h5>
+                    </div>
+                    <a class="stretched-link" th:href="${#authorization.expression('hasRole(''ROLE_CANDIDATE'')')} ? '/candidate' : '#'"></a>
+                </div>
+                <div class="card text-white bg-info mb-3">
+                    <div class="card-header"></div>
+                    <div class="card-body">
+                        <h5 class="card-title">Click here for the <b>Instructor</b> Dashboard!</h5>
+                    </div>
+                    <a class="stretched-link" th:href="${#authorization.expression('hasRole(''ROLE_INSTRUCTOR'')')} ? '/instructor' : '#'"></a>
+                </div>
+                <div class="card bg-light mb-3">
+                    <div class="card-header"></div>
+                    <div class="card-body">
+                        <h5 class="card-title">Click here for the <b>Administrator</b> Dashboard!</h5>
+                    </div>
+                    <a class="stretched-link" th:href="${#authorization.expression('hasRole(''ROLE_ADMIN'')')} ? '/admin' : '#'"></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Has NO roles case -->
+        <div class="row" th:unless="${#lists.size(#authentication.getAuthorities()) > 0}">
+            <h1>Call the School to get assigned a role!</h1>
+        </div>
+
+    </div>
+</th:block>

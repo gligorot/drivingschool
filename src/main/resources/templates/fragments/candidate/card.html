@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="headerfiles">
+    <meta charset="UTF-8" />
+    <link th:href="@{/css/styles.css}" rel="stylesheet">
+</head>
+<body>
+    <div th:fragment="progresscard (name, state, timestamp)">
+        <!-- state can be 'active', 'done', 'future' -->
+        <div class="col-10 mx-auto">
+            <div class="card text-white mb-3" th:classappend="${state == 'active' ? 'bg-success' : (state == 'done' ? 'bg-info' : 'bg-secondary') }">
+                <div class="card-header" th:text="${name}">header</div>
+                <div class="card-body">
+<!--                    <p class="card-text" th:if="${state == 'active'}">State is active.</p>-->
+<!--                    <p class="card-text" th:if="${state == 'done'}">State is done.</p>-->
+<!--                    <p class="card-text" th:if="${state == 'done'}" th:text="${#temporals.format(timestamp, 'dd-MM-yyyy HH:mm')}"></p>-->
+<!--                    <p class="card-text" th:if="${state == 'future'}">State is future.</p>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

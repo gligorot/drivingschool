@@ -1,0 +1,92 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+    <div class="container">
+        <div class="row">
+            <!-- Left side -->
+            <div class="col-12 col-md-6">
+                <!--                 General training info -->
+                <!--                <div class="row"></div>-->
+
+                <!-- Training Progress info -->
+                <div class="row">
+                    <!-- Cards stuff -->
+                    <div class="col-12 col-md-8 col-lg-6 p-3 mt-5">
+                        <div th:each="transition : ${transitions}">
+                            <div th:include="fragments/candidate/card :: progresscard (${transition.getStateName()}, ${transition.getState()}, ${transition.getTimestamp()})">
+                                <!--                        <div th:include="fragments/candidate/card :: progresscard ('Theory', 'done')">...</div>-->
+                                <!--                        <div th:include="fragments/candidate/card :: progresscard ('Practice', 'future')">...</div>-->
+                                <!--                        <div th:include="fragments/candidate/card :: progresscard ('Theory Test', 'future')">...</div>-->
+                                <!--                        <div th:include="fragments/candidate/card :: progresscard ('Range Test', 'future')">...</div>-->
+                                <!--                        <div th:include="fragments/candidate/card :: progresscard ('City Test', 'future')">...</div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right side -->
+            <div class="col-12 col-md-6 p-3 mt-5">
+                <!-- Instructor info -->
+                <div class="row">
+                    <table class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Instructor Info</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">Name</th>
+                            <td th:text="${training.getInstructor().getUser().getName() + ' ' + training.getInstructor().getUser().getSurname()}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Phone Number</th>
+                            <td th:text="${training.getInstructor().getUser().getPhoneNumber()}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Request form -->
+                <div class="row mt-5">
+                    <h3>Request form</h3>
+                    <form method="POST" th:action="@{/candidate/request}">
+                        <input type="hidden" name="trainingId" th:value="${training.getId()}"/>
+                        <!--                        <input type="hidden" name="candidateId" th:value="${training.getCandidate().getId()}" />-->
+                        <input type="hidden" name="trainingStateName" th:value="${training.getTrainingDetailsDTO().getCurrentState()}"/>
+                        <input type="hidden" name="trainingStateCurrentCount" th:value="${training.getTrainingDetailsDTO().getCurrentStateCount()}"/>
+
+                        <label for="request-datetime">Choose date and time for request:</label>
+                        <input type="datetime-local" id="request-datetime"
+                               name="request-datetime" th:value="${{minDateTime}}"
+                               th:min="${{minDateTime}}" th:max="${{maxDateTime}}"
+                               step="3600" required/>
+
+                        <button type="submit" class="btn btn-success">
+                            REQUEST
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Approved Future Requests -->
+                <div class="row mt-5">
+                    <h3>Approved Future Requests</h3>
+                    <table class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Time</th>
+                            <th scope="col">Target Progress (days/tries)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="req : ${training.getTrainingDetailsDTO().getActiveAcceptedRequests()}">
+                            <td th:text="${#temporals.format(req.getTimestamp(), 'dd-MM-yyyy HH:mm')}"></td>
+                            <td th:text="${req.getToValue()}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
